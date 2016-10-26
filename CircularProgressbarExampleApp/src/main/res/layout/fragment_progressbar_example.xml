@@ -1,17 +1,22 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="net.futuredrama.jomaceld.CircularProgressbar_ExampleApp.ProgressbarExampleFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="net.futuredrama.jomaceld.CircularProgressbar_ExampleApp.ProgressbarExampleFragment"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <net.futuredrama.jomaceld.circularprogressbarLib.CircleProgressbarView
         android:id="@+id/pbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="32dp"
-        android:layout_marginRight="32dp"/>
+        android:layout_marginRight="32dp"
+        app:backgroundColor="@color/progressbar_bgColor"
+        app:backgroundThickness="20dp"
+        app:barThickness="16dp"
+        app:startAngle="-90"/>
 
     <ScrollView
         android:layout_width="match_parent"

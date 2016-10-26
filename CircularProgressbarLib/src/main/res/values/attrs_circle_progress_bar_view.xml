@@ -1,8 +1,8 @@
 <resources>
     <declare-styleable name="CircleProgressbarView">
-        <attr name="exampleString" format="string" />
-        <attr name="exampleDimension" format="dimension" />
-        <attr name="exampleColor" format="color" />
-        <attr name="exampleDrawable" format="color|reference" />
+        <attr name="backgroundColor" format="color|reference" />
+        <attr name="backgroundThickness" format="dimension" />
+        <attr name="barThickness" format="dimension" />
+        <attr name="startAngle" format="integer" />
     </declare-styleable>
 </resources>

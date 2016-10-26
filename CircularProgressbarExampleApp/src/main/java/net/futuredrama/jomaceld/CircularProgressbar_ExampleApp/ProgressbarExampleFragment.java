@@ -78,21 +78,11 @@ public class ProgressbarExampleFragment extends Fragment implements SeekBar.OnSe
         return rootView;
     }
 
-    private void setupProgressbar()
-    {
-        int[] colors = { Color.parseColor("#FF9800"),
-                Color.parseColor("#E91E63"),
-                Color.parseColor("#3F51B5")};
-
+    private void setupProgressbar() {
         // Set the numbers of bars
         pBar.setNumberOfBars(1);
-        // Set up background color and thickness
-        pBar.setProgressbarBackgroundColor(Color.argb(50,0,0,0));
-        pBar.setProgressbarBackgroundThickness(25, TypedValue.COMPLEX_UNIT_DIP);
         // Set bars colors
-        pBar.setBarsColors(new int[]{Color.BLUE});
-        // Set bars thickness
-        pBar.setAllBarsThickness(10,TypedValue.COMPLEX_UNIT_DIP);
+        pBar.setBarsColors(new int[]{ getResources().getColor(R.color.bar1Color) });
         // Animate the progress from current value to the desired value
         pBar.setProgressWithAnimation(0.323f);
     }

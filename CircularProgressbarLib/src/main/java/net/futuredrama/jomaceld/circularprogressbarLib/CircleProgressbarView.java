@@ -20,6 +20,7 @@ import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -40,21 +41,24 @@ public class CircleProgressbarView extends View implements ValueAnimator.Animato
     // TODO: Implement min,max
     private float minProgress = 0;
     private float maxProgress = 1;
-    /** Angle at witch the progress is 0 */
-    private int startAngle;
+    /** Angle at witch the progress is 0. -90 => 12 o'clock */
+    private int startAngle = -90;
     /** Angle offset. Used mainly for animation purposes*/
     private int startAngleOffset;
     /** Progressbar's background color */
-    private int progressbarBackgroundColor = Color.DKGRAY;
+    private int pbBackgroundColor = Color.DKGRAY;
     /** Progressbar's background Thickness */
-    private float progressbarBackgroundThickness = 6;
-    private Paint progressbarBackgroundPaint;
-    private RectF rectF;
-    ObjectAnimator spinsAnimator;
+    private float pbBackgroundThickness = 10;
+    /** Default Progressbar's bars Thickness */
+    private float pbBarsThickness = 8;
     /** List containing all the bars of type {@link BarComponent} */
     private ArrayList<BarComponent> barComponentsArray;
     /** When set to true, bars will be stacked in the progressbar */
     public boolean bStackBars = true;
+
+    private RectF rectF;
+    private Paint progressbarBackgroundPaint;
+    ObjectAnimator spinsAnimator;
 
     public CircleProgressbarView(Context context) {
         super(context);
@@ -80,26 +84,23 @@ public class CircleProgressbarView extends View implements ValueAnimator.Animato
      *        the view. Can be 0 to not look for defaults.
      */
     private void init(AttributeSet attrs, int defStyle) {
-
         barComponentsArray = new ArrayList<>();
         rectF = new RectF();
-        // Start the progress at 12 o'clock
-        startAngle = -90;
+
+        final TypedArray typedArray = getContext().obtainStyledAttributes(attrs,
+                                                    R.styleable.CircleProgressbarView, defStyle, 0);
+        // Read XML attributes
+        pbBackgroundColor = typedArray.getColor(R.styleable.CircleProgressbarView_backgroundColor, pbBackgroundColor);
+        pbBackgroundThickness = typedArray.getDimension(R.styleable.CircleProgressbarView_backgroundThickness,pbBackgroundThickness);
+        pbBarsThickness = typedArray.getDimension(R.styleable.CircleProgressbarView_barThickness, pbBarsThickness);
+        startAngle = typedArray.getInt(R.styleable.CircleProgressbarView_startAngle,startAngle);
+        typedArray.recycle();
 
         // Initialize background paint
         progressbarBackgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        progressbarBackgroundPaint.setColor(progressbarBackgroundColor);
         progressbarBackgroundPaint.setStyle(Paint.Style.STROKE);
-        progressbarBackgroundPaint.setStrokeWidth(progressbarBackgroundThickness);
-
-        // TODO: Load attributes
-        /*final TypedArray a = getContext().obtainStyledAttributes(
-                attrs, R.styleable.CircleProgressBarView, defStyle, 0);*/
-
-        //a.recycle();
-
-        // Update TextPaint and text measurements from attributes
-        // invalidateTextPaintAndMeasurements();
+        progressbarBackgroundPaint.setColor(pbBackgroundColor);
+        progressbarBackgroundPaint.setStrokeWidth(pbBackgroundThickness);
     }
 
     @Override
@@ -131,7 +132,7 @@ public class CircleProgressbarView extends View implements ValueAnimator.Animato
         final int min = Math.min(width, height);
         setMeasuredDimension(min, min);
 
-        float maxThickness = progressbarBackgroundThickness;
+        float maxThickness = pbBackgroundThickness;
 
         for(BarComponent b : barComponentsArray)
         {
@@ -162,13 +163,12 @@ public class CircleProgressbarView extends View implements ValueAnimator.Animato
         this.startAngleOffset = startAngleOffset;
     }
 
-    public int getProgressbarBackgroundColor() {
-        return progressbarBackgroundColor;
+    public int getPbBackgroundColor() {
+        return pbBackgroundColor;
     }
 
-    public void setProgressbarBackgroundColor(int progressbarBackgroundColor) {
-        this.progressbarBackgroundColor = progressbarBackgroundColor;
-        this.progressbarBackgroundPaint.setColor(progressbarBackgroundColor);
+        this.pbBackgroundColor = backgroundColor;
+        this.progressbarBackgroundPaint.setColor(backgroundColor);
     }
 
     public Paint getProgressbarBackgroundPaint() {
@@ -179,19 +179,19 @@ public class CircleProgressbarView extends View implements ValueAnimator.Animato
         this.progressbarBackgroundPaint = progressbarBackgroundPaint;
     }
 
-    public float getProgressbarBackgroundThickness() {
-        return progressbarBackgroundThickness;
+    public float getPbBackgroundThickness() {
+        return pbBackgroundThickness;
     }
 
-    public void setProgressbarBackgroundThickness(float progressbarBackgroundThickness) {
-        this.progressbarBackgroundThickness = progressbarBackgroundThickness;
-        progressbarBackgroundPaint.setStrokeWidth(progressbarBackgroundThickness);
+    public void setPbBackgroundThickness(float pbBackgroundThickness) {
+        this.pbBackgroundThickness = pbBackgroundThickness;
+        progressbarBackgroundPaint.setStrokeWidth(pbBackgroundThickness);
     }
 
     public void setProgressbarBackgroundThickness(int thickness_dp, int unit) {
         Resources r = getResources();
         float thickness_px = TypedValue.applyDimension(unit, thickness_dp, r.getDisplayMetrics());
-        this.setProgressbarBackgroundThickness(thickness_px);
+        this.setPbBackgroundThickness(thickness_px);
     }
 
 
@@ -290,7 +290,9 @@ public class CircleProgressbarView extends View implements ValueAnimator.Animato
         barArray.clear();
 
         for (int i = 0; i < barNum; i++) {
-            addBarComponent(new BarComponent());
+            BarComponent auxBar = new BarComponent();
+            auxBar.setBarThicknessPx(pbBarsThickness);
+            addBarComponent(auxBar);
         }
     }
 
@@ -332,8 +334,11 @@ public class CircleProgressbarView extends View implements ValueAnimator.Animato
      * @param unit The unit to convert from. {@link TypedValue#TYPE_DIMENSION}
      */
     public void setAllBarsThickness(float barThickness, int unit) {
+
         for(int i = 0 ; i < getBarComponentsArray().size(); i++)
             setBarThickness(i,barThickness,unit);
+
+        pbBarsThickness = TypedValue.applyDimension(unit, barThickness, getResources().getDisplayMetrics());
     }
 
     /**
@@ -344,7 +349,7 @@ public class CircleProgressbarView extends View implements ValueAnimator.Animato
      */
     public void setBarThickness(int barIndex,float barThickness, int unit) {
         float thickness_px = TypedValue.applyDimension(unit, barThickness, getResources().getDisplayMetrics());
-        //this.setProgressbarBackgroundThickness(thickness_px);
+        //this.setPbBackgroundThickness(thickness_px);
         this.setBarThickness(barIndex,thickness_px);
     }
 }
