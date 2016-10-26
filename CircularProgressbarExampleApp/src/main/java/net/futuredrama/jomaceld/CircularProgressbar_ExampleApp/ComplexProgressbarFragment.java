@@ -74,19 +74,20 @@ public class ComplexProgressbarFragment extends Fragment {
 
     private void setupProgressbar()
     {
-        int[] colors = { Color.parseColor("#FF9800"),
-                Color.parseColor("#E91E63"),
-                Color.parseColor("#3F51B5")};
+        // Array containing bars colors
+        int[] colors = { getResources().getColor(R.color.bar1Color),
+                         getResources().getColor(R.color.bar2Color),
+                         getResources().getColor(R.color.bar3Color)};
 
         // Set the numbers of bars
         pBar.setNumberOfBars(3);
         // Set up background color and thickness
-        pBar.setBackgroundColor(Color.argb(50,0,0,0));
+        pBar.setPbBackgroundColor(getResources().getColor(R.color.progressbar_bgColor));
         pBar.setProgressbarBackgroundThickness(25, TypedValue.COMPLEX_UNIT_DIP);
-        // Set bars colors
-        pBar.setBarsColors(colors);
         // Set bars thickness
         pBar.setAllBarsThickness(20, TypedValue.COMPLEX_UNIT_DIP);
+        // Set bars colors
+        pBar.setBarsColors(colors);
         // Animate the progress of all bars from current value to the desired values
         pBar.setProgressWithAnimation(0.3f,0.2f,0.1f);
     }
