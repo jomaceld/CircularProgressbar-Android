@@ -167,6 +167,7 @@ public class CircleProgressbarView extends View implements ValueAnimator.Animato
         return pbBackgroundColor;
     }
 
+    public void setPbBackgroundColor(int backgroundColor) {
         this.pbBackgroundColor = backgroundColor;
         this.progressbarBackgroundPaint.setColor(backgroundColor);
     }
