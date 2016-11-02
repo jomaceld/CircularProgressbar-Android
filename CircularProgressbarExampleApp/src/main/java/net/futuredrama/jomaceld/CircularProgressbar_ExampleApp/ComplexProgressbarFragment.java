@@ -16,7 +16,6 @@
 package net.futuredrama.jomaceld.CircularProgressbar_ExampleApp;
 
 import android.animation.ObjectAnimator;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.TypedValue;
@@ -112,7 +111,7 @@ public class ComplexProgressbarFragment extends Fragment {
             pBar.cancelSpin();
             for (int i = 0; i < barComponentsArray.size(); i++) {
                 BarComponent bar = barComponentsArray.get(i);
-                float auxValue = bar.getProgress();
+                float auxValue = bar.getValue();
                 bar.animateProgress(auxValue);
                 bar.animateAngleOffset(360,1000);
             }

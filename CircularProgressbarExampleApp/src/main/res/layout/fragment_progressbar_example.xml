@@ -15,8 +15,7 @@
         android:layout_marginRight="32dp"
         app:backgroundColor="@color/progressbar_bgColor"
         app:backgroundThickness="20dp"
-        app:barThickness="16dp"
-        app:startAngle="-90"/>
+        app:barThickness="16dp"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -50,6 +49,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/barThicknessSeekBar"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Progressbar maximum"/>
+
+            <SeekBar
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/maximumSeekBar"/>
+
 
             <Button
                 android:id="@+id/button_randomprogress"

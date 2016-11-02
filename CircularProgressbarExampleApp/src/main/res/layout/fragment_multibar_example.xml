@@ -26,31 +26,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Progress"/>
-
-            <SeekBar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/progressSeekBar"/>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Bar thickness"/>
-
-            <SeekBar
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/barThicknessSeekBar"/>
-
-            <Button
-                android:id="@+id/button_randomprogress"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Set Random Progress"/>
 
             <ToggleButton
                 android:text="ToggleButton"

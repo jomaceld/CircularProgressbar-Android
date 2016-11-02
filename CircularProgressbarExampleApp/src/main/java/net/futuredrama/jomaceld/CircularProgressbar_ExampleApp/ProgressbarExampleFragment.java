@@ -16,7 +16,6 @@
 package net.futuredrama.jomaceld.CircularProgressbar_ExampleApp;
 
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.TypedValue;
@@ -39,6 +38,7 @@ public class ProgressbarExampleFragment extends Fragment implements SeekBar.OnSe
     CircleProgressbarView pBar;
     SeekBar sb_progress;
     SeekBar sb_barThickness;
+    SeekBar sb_maximum;
 
     public ProgressbarExampleFragment() {
         // Required empty public constructor
@@ -55,11 +55,6 @@ public class ProgressbarExampleFragment extends Fragment implements SeekBar.OnSe
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_progressbar_example, container, false);
 
-        pBar = (CircleProgressbarView) rootView.findViewById(R.id.pbar);
-
-        if(pBar != null)
-            setupProgressbar();
-
         Button buttonRandomProgress = (Button) rootView.findViewById(R.id.button_randomprogress);
         assert buttonRandomProgress != null;
         buttonRandomProgress.setOnClickListener(new View.OnClickListener() {
@@ -75,6 +70,15 @@ public class ProgressbarExampleFragment extends Fragment implements SeekBar.OnSe
         sb_barThickness = (SeekBar) rootView.findViewById(R.id.barThicknessSeekBar);
         sb_barThickness.setOnSeekBarChangeListener(this);
 
+        sb_maximum = (SeekBar) rootView.findViewById(R.id.maximumSeekBar);
+        sb_maximum.setMax(4);
+        sb_maximum.setOnSeekBarChangeListener(this);
+
+        pBar = (CircleProgressbarView) rootView.findViewById(R.id.pbar);
+
+        if(pBar != null)
+            setupProgressbar();
+
         return rootView;
     }
 
@@ -83,8 +87,8 @@ public class ProgressbarExampleFragment extends Fragment implements SeekBar.OnSe
         pBar.setNumberOfBars(1);
         // Set bars colors
         pBar.setBarsColors(new int[]{ getResources().getColor(R.color.bar1Color) });
-        // Animate the progress from current value to the desired value
-        pBar.setProgressWithAnimation(0.323f);
+        //Set a Random progress
+        setRandomProgress();
     }
 
     public void setRandomProgress() {
@@ -103,6 +107,9 @@ public class ProgressbarExampleFragment extends Fragment implements SeekBar.OnSe
                 break;
             case R.id.progressSeekBar:
                 pBar.setProgressWithAnimation(progress/100f);
+                break;
+            case R.id.maximumSeekBar:
+                pBar.setMaximum(progress);
                 break;
         }
     }
