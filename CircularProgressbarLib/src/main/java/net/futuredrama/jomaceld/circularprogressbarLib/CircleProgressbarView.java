@@ -26,7 +26,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -38,9 +37,10 @@ import java.util.ArrayList;
  */
 public class CircleProgressbarView extends View implements ValueAnimator.AnimatorUpdateListener,BarAnimationListener {
 
-    // TODO: Implement min,max
-    private float minProgress = 0;
-    private float maxProgress = 1;
+    /** The maximum value of the range. The default is 1 */
+    private float maximum = 1;
+    /** The minimum value of the range. The default is 0. */
+    private float minimum = 0;
     /** Angle at witch the progress is 0. -90 => 12 o'clock */
     private int startAngle = -90;
     /** Angle offset. Used mainly for animation purposes*/
@@ -87,14 +87,16 @@ public class CircleProgressbarView extends View implements ValueAnimator.Animato
         barComponentsArray = new ArrayList<>();
         rectF = new RectF();
 
-        final TypedArray typedArray = getContext().obtainStyledAttributes(attrs,
+        final TypedArray tArray = getContext().obtainStyledAttributes(attrs,
                                                     R.styleable.CircleProgressbarView, defStyle, 0);
         // Read XML attributes
-        pbBackgroundColor = typedArray.getColor(R.styleable.CircleProgressbarView_backgroundColor, pbBackgroundColor);
-        pbBackgroundThickness = typedArray.getDimension(R.styleable.CircleProgressbarView_backgroundThickness,pbBackgroundThickness);
-        pbBarsThickness = typedArray.getDimension(R.styleable.CircleProgressbarView_barThickness, pbBarsThickness);
-        startAngle = typedArray.getInt(R.styleable.CircleProgressbarView_startAngle,startAngle);
-        typedArray.recycle();
+        pbBackgroundColor = tArray.getColor(R.styleable.CircleProgressbarView_backgroundColor, pbBackgroundColor);
+        pbBackgroundThickness = tArray.getDimension(R.styleable.CircleProgressbarView_backgroundThickness,pbBackgroundThickness);
+        pbBarsThickness = tArray.getDimension(R.styleable.CircleProgressbarView_barThickness, pbBarsThickness);
+        setStartAngle(tArray.getInt(R.styleable.CircleProgressbarView_startAngle,startAngle));
+        setMaximum(tArray.getFloat(R.styleable.CircleProgressbarView_maxValue, maximum));
+        setMinimum(tArray.getFloat(R.styleable.CircleProgressbarView_minValue, minimum));
+        tArray.recycle();
 
         // Initialize background paint
         progressbarBackgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -103,20 +105,18 @@ public class CircleProgressbarView extends View implements ValueAnimator.Animato
         progressbarBackgroundPaint.setStrokeWidth(pbBackgroundThickness);
     }
 
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        startAngle = (startAngle % -360);
 
         // Draw Background
         canvas.drawOval(rectF, progressbarBackgroundPaint);
-
         // Draw bars
         float previousValue = 0;
         for (BarComponent bar : barComponentsArray) {
-
             float arcStartAngle = startAngle + startAngleOffset + bar.getAngleOffset() + previousValue;
-            float arcEndAngle = 360 * bar.getProgress();
+            float arcEndAngle = 360 * bar.getProgressNormalized();
 
             canvas.drawArc(rectF,arcStartAngle ,arcEndAngle, false, bar.getBarPaint());
             if(bStackBars)
@@ -208,7 +208,8 @@ public class CircleProgressbarView extends View implements ValueAnimator.Animato
      * @param startAngle 12 o'clock is a -90 angle
      */
     public void setStartAngle(int startAngle) {
-        this.startAngle = startAngle;
+
+        this.startAngle = (startAngle % -360);
     }
 
     /**
@@ -233,7 +234,6 @@ public class CircleProgressbarView extends View implements ValueAnimator.Animato
      */
     public void animateSpins(int repetitions,int repeatMode,int duration,int fromAngle,int toAngle )
     {
-        Log.v("CustomCircle","animateSpins");
         startAngleOffset = fromAngle;
         PropertyValuesHolder ofStartAngle = PropertyValuesHolder.ofInt("startAngleOffset", toAngle);
 
@@ -267,12 +267,8 @@ public class CircleProgressbarView extends View implements ValueAnimator.Animato
         }
     }
 
-    public boolean isSpinning()
-    {
-        if(spinsAnimator != null)
-            return spinsAnimator.isRunning();
-        else
-            return false;
+    public boolean isSpinning() {
+        return spinsAnimator != null && spinsAnimator.isRunning();
     }
 
     @Override
@@ -319,12 +315,18 @@ public class CircleProgressbarView extends View implements ValueAnimator.Animato
     public void setProgressWithAnimation(float... progress)
     {
         ArrayList<BarComponent> array = getBarComponentsArray();
-        for (int i = 0 ; i <  array.size(); i++ )
-        {
-            if(i < progress.length)
-                array.get(i).animateProgress(progress[i]);
-            else
-                array.get(i).animateProgress(0);
+        for (int i = 0 ; i <  array.size(); i++ ) {
+            float barProgress = 0;
+
+            if(i < progress.length) {
+                barProgress = progress[i];
+            }
+
+            BarComponent bar = array.get(i);
+            // Store value
+            bar.setValue(barProgress);
+            // Store and animate normalized value
+            bar.animateProgress(normalize(barProgress,minimum,maximum));
         }
     }
 
@@ -352,5 +354,58 @@ public class CircleProgressbarView extends View implements ValueAnimator.Animato
         float thickness_px = TypedValue.applyDimension(unit, barThickness, getResources().getDisplayMetrics());
         //this.setPbBackgroundThickness(thickness_px);
         this.setBarThickness(barIndex,thickness_px);
+    }
+
+    public float getMaximum() {
+        return maximum;
+    }
+
+    public void setMaximum(float max) {
+        if(max <= minimum || max == maximum)
+            return;
+
+        this.maximum = max;
+        updateBarsNormalizedProgress();
+    }
+
+    public float getMinimum() {
+        return minimum;
+    }
+
+    public void setMinimum(float min) {
+        if(min >= maximum || min == minimum)
+            return;
+
+        minimum = min;
+        updateBarsNormalizedProgress();
+    }
+
+    /**
+     * Updates the bars normalized value (between 0-1) when
+     * a new minimum or maximum value is set.
+     */
+    private void updateBarsNormalizedProgress()
+    {
+        for (BarComponent bar : getBarComponentsArray()) {
+
+            float newProgress = normalize(bar.getValue(), minimum, maximum);
+            bar.animateProgress(newProgress);
+        }
+    }
+
+    /**
+     * Normalizes a value to a 0-1 range, based on a max(1) and min(0).
+     * Any {@value} greater than max will be normalized to 1, and if less than min to 0
+     * @param value Value to be normalized
+     * @return normalized value in the 0-1 range.
+     */
+    private float normalize(float value,float min, float max)
+    {
+        if(value >= max)
+            return 1;
+        else if(value <= min)
+            return  0;
+
+        return  (value - min) / (max -min);
     }
 }

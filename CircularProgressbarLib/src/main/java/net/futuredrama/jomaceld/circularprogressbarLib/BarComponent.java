@@ -24,7 +24,11 @@ import android.view.animation.DecelerateInterpolator;
 
 public class BarComponent implements ValueAnimator.AnimatorUpdateListener{
 
-    private float progress;
+
+    /** Bar value */
+    private float value;
+    /** Stores the normalized (0-1 range) bar value based on progressbar maximum and minimum */
+    private float progressNormalized;
     private float barThickness;
     private int barColor;
     private float angleOffset = 0;
@@ -42,15 +46,15 @@ public class BarComponent implements ValueAnimator.AnimatorUpdateListener{
         setBarPaint(paint);
 
         setBarThicknessPx(4);
-        setProgress(0);
+        setValue(0);
     }
 
-    public float getProgress() {
-        return progress;
+    public float getValue() {
+        return value;
     }
 
-    public void setProgress(float progress) {
-        this.progress = progress;
+    public void setValue(float value) {
+        this.value = value;
     }
 
     public float getBarThickness() {
@@ -70,9 +74,11 @@ public class BarComponent implements ValueAnimator.AnimatorUpdateListener{
         this.barColor = barColor;
         barPaint.setColor(barColor);
     }
+
+
     public void animateProgress(float p)
     {
-        PropertyValuesHolder valueHolder = PropertyValuesHolder.ofFloat("progress", p);
+        PropertyValuesHolder valueHolder = PropertyValuesHolder.ofFloat("progressNormalized", p);
 
         ObjectAnimator animator = ObjectAnimator.ofPropertyValuesHolder(this, valueHolder);
         animator.setDuration(1000);
@@ -126,4 +132,11 @@ public class BarComponent implements ValueAnimator.AnimatorUpdateListener{
         this.angleOffset = startAngleOffset;
     }
 
+    public float getProgressNormalized() {
+        return progressNormalized;
+    }
+
+    public void setProgressNormalized(float progressNormalized) {
+        this.progressNormalized = progressNormalized;
+    }
 }

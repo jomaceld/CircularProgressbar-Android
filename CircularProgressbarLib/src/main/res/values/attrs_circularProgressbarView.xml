@@ -4,5 +4,7 @@
         <attr name="backgroundThickness" format="dimension" />
         <attr name="barThickness" format="dimension" />
         <attr name="startAngle" format="integer" />
+        <attr name="maxValue" format="float" />
+        <attr name="minValue" format="float" />
     </declare-styleable>
 </resources>
