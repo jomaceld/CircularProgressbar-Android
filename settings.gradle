@@ -1,1 +1,1 @@
-include ':CircularProgressbarExampleApp', ':CircularProgressbarLib'
+include ':CircularProgressbarExampleApp', ':circular-progressbar'

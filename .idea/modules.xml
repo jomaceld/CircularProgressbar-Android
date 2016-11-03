@@ -4,7 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/CircularProgressbar-Android.iml" filepath="$PROJECT_DIR$/CircularProgressbar-Android.iml" />
       <module fileurl="file://$PROJECT_DIR$/CircularProgressbarExampleApp/CircularProgressbarExampleApp.iml" filepath="$PROJECT_DIR$/CircularProgressbarExampleApp/CircularProgressbarExampleApp.iml" />
-      <module fileurl="file://$PROJECT_DIR$/CircularProgressbarLib/CircularProgressbarLib.iml" filepath="$PROJECT_DIR$/CircularProgressbarLib/CircularProgressbarLib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/circular-progressbar/circular-progressbar.iml" filepath="$PROJECT_DIR$/circular-progressbar/circular-progressbar.iml" />
     </modules>
   </component>
 </project>

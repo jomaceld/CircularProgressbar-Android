@@ -10,7 +10,7 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/CircularProgressbarExampleApp" />
-            <option value="$PROJECT_DIR$/CircularProgressbarLib" />
+            <option value="$PROJECT_DIR$/circular-progressbar" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />
