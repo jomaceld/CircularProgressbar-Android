@@ -20,7 +20,7 @@ allprojects {
  
 ```gradle
 dependencies {
-	compile 'net.futuredrama.jomaceld.CircularProgressbarLib:0.1'
+	compile 'net.futuredrama.jomaceld.circular-progressbar:0.1'
 }
 ```
 
