@@ -5,7 +5,7 @@ Usage
 
 To use the library you have few different options:
 
-**1. Gradle dependency** (recommended)
+**Option 1. Gradle dependency(recommended)** 
 
   - Make sure you have the jcenter() repository in your project  `build.gradle`:
  
@@ -24,9 +24,9 @@ dependencies {
 }
 ```
 
-**2. Clone Github repository**
+**Option 2. Clone Github repository**
   1. Use git to download a copy of the whole repository to your computer (this includes the folder of the library and an example project)
-  2. Import the library folder (`CircularProgressbarLib`) into Android Studio as a dependence to your project: 
+  2. Import the library folder (`CircularProgressbarLib`) into Android Studio as a dependency to your project: 
    - [Add your library as a dependency](https://developer.android.com/studio/projects/android-library.html#AddDependency)
 
 #License
