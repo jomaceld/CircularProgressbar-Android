@@ -33,7 +33,7 @@ android {
         minSdkVersion 11
         targetSdkVersion 25
         versionCode 1
-        versionName "1.0"
+        versionName "0.1"
     }
     buildTypes {
         release {
@@ -48,8 +48,6 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:25.0.0'
 }
-
-
 
 // Place it at the end of the file
 apply from: 'https://raw.githubusercontent.com/nisrulz/JCenter/master/installv1.gradle'
