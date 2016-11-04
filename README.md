@@ -2,8 +2,8 @@
 
 [![Platform](https://img.shields.io/badge/platform-android-green.svg)](http://developer.android.com/index.html)
 
-<img src="/Screens/loading_animation.gif" alt="loading animation" title="screenshot1" width="400" height="400"  />
 
+<img src="/Screens/preview.gif" alt="sample" title="sample" width="300" height="448" align="right" vspace="24" />
 Usage
 -----
 
@@ -15,7 +15,7 @@ To use the library you have few different options:
  
 ```gradle
 allprojects {
-	repositories {
+	repositories {s
 		jcenter()
 	}
 }
@@ -32,6 +32,12 @@ dependencies {
   1. Use git to download a copy of the whole repository to your computer (this includes the folder of the library and an example project)
   2. Import the library folder (`CircularProgressbarLib`) into Android Studio as a dependency to your project: 
    - [Add your library as a dependency](https://developer.android.com/studio/projects/android-library.html#AddDependency)
+
+Examples
+-----
+<img src="/Screens/loading_animation.gif" alt="loading animation" title="screenshot1" width="400" height="400"  />
+
+
 
 #License
 
