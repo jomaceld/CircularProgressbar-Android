@@ -2,10 +2,10 @@
 
 [![Platform](https://img.shields.io/badge/platform-android-green.svg)](http://developer.android.com/index.html)
 
-<img src="/Screens/preview.gif" width="300" vspace="10" alt="preview" align="right"  />
+
 Usage
 -----
-
+<img src="/Screens/preview.gif" width="300" vspace="10" alt="preview" align="right"  />
 To use the library you have few different options:
 
 **Option 1. Gradle dependency(recommended)** 
