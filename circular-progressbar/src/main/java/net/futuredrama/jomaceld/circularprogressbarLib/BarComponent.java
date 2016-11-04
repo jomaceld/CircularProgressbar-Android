@@ -24,7 +24,7 @@ import android.view.animation.DecelerateInterpolator;
 
 public class BarComponent implements ValueAnimator.AnimatorUpdateListener{
 
-
+    BarAnimationListener mListener;
     /** Bar value */
     private float value;
     /** Stores the normalized (0-1 range) bar value based on progressbar maximum and minimum */
@@ -32,26 +32,51 @@ public class BarComponent implements ValueAnimator.AnimatorUpdateListener{
     private float barThickness;
     private int barColor;
     private float angleOffset = 0;
-
     private Paint barPaint;
 
-    BarAnimationListener mListener;
-
     /** Default constructor */
-    public BarComponent()
-    {
-        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    public BarComponent(){
+        // Initialize Paint with defaults
+        Paint paint = new Paint();
         paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeCap(Paint.Cap.ROUND);
         setBarPaint(paint);
-
-        setBarThicknessPx(4);
         setValue(0);
+    }
+
+    public void animateProgress(float p)
+    {
+        PropertyValuesHolder valueHolder = PropertyValuesHolder.ofFloat("progressNormalized", p);
+
+        ObjectAnimator animator = ObjectAnimator.ofPropertyValuesHolder(this, valueHolder);
+        animator.setDuration(1000);
+        animator.setInterpolator(new DecelerateInterpolator());
+        animator.setStartDelay(0);
+        animator.addUpdateListener(this);
+
+        animator.start();
+    }
+
+    public void animateAngleOffset(float p,int duration)
+    {
+        PropertyValuesHolder progressVH = PropertyValuesHolder.ofFloat("angleOffset", p);
+
+        ObjectAnimator animator = ObjectAnimator.ofPropertyValuesHolder(this, progressVH);
+        animator.setDuration(duration);
+        animator.setInterpolator(new DecelerateInterpolator());
+        animator.setStartDelay(0);
+        animator.addUpdateListener(this);
+
+        animator.start();
     }
 
     public void setStrokeCapStyle(Paint.Cap capStyle)
     {
         barPaint.setStrokeCap(capStyle);
+    }
+
+    public void setPaintAntiAlias(boolean aliasing)
+    {
+        barPaint.setAntiAlias(aliasing);
     }
 
     public float getValue() {
@@ -80,47 +105,6 @@ public class BarComponent implements ValueAnimator.AnimatorUpdateListener{
         barPaint.setColor(barColor);
     }
 
-
-    public void animateProgress(float p)
-    {
-        PropertyValuesHolder valueHolder = PropertyValuesHolder.ofFloat("progressNormalized", p);
-
-        ObjectAnimator animator = ObjectAnimator.ofPropertyValuesHolder(this, valueHolder);
-        animator.setDuration(1000);
-        animator.setInterpolator(new DecelerateInterpolator());
-        animator.setStartDelay(0);
-        animator.addUpdateListener(this);
-
-        animator.start();
-    }
-
-    public void animateAngleOffset(float p,int duration)
-    {
-        PropertyValuesHolder progressVH = PropertyValuesHolder.ofFloat("angleOffset", p);
-
-        ObjectAnimator animator = ObjectAnimator.ofPropertyValuesHolder(this, progressVH);
-        animator.setDuration(duration);
-        animator.setInterpolator(new DecelerateInterpolator());
-        animator.setStartDelay(0);
-        animator.addUpdateListener(this);
-
-        animator.start();
-    }
-
-    public void setBarAnimationListener(BarAnimationListener l)
-    {
-        mListener = l;
-    }
-
-    @Override
-    public void onAnimationUpdate(ValueAnimator animation) {
-        if(mListener != null)
-            mListener.onBarAnimationUpdate();
-        else
-            Log.w("BarComponent", "Warning: Bar hasn't been added to a ProgressBar");
-    }
-
-
     public Paint getBarPaint() {
         return barPaint;
     }
@@ -143,5 +127,18 @@ public class BarComponent implements ValueAnimator.AnimatorUpdateListener{
 
     public void setProgressNormalized(float progressNormalized) {
         this.progressNormalized = progressNormalized;
+    }
+
+    public void setBarAnimationListener(BarAnimationListener l)
+    {
+        mListener = l;
+    }
+
+    @Override
+    public void onAnimationUpdate(ValueAnimator animation) {
+        if(mListener != null)
+            mListener.onBarAnimationUpdate();
+        else
+            Log.w("BarComponent", "Warning: Bar hasn't been added to a ProgressBar");
     }
 }

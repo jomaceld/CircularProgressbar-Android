@@ -57,6 +57,8 @@ public class CircleProgressbarView extends View implements ValueAnimator.Animato
     private ArrayList<BarComponent> barComponentsArray;
     /** When set to true, bars will be stacked in the progressbar */
     public boolean bStackBars = true;
+    /** When set to true, bars will be stacked in the progressbar */
+    public boolean bAntiAlias = true;
     /** Bars stroke cap style */
     private Paint.Cap barCapStyle = Paint.Cap.ROUND;
 
@@ -132,22 +134,6 @@ public class CircleProgressbarView extends View implements ValueAnimator.Animato
         }
     }
 
-    /**
-     * Set bars cap style
-     * @param capStyle
-     */
-    public void setBarStrokeCapStyle(Paint.Cap capStyle)
-    {
-        if(barCapStyle == capStyle)
-            return;
-
-        barCapStyle = capStyle;
-        for(BarComponent b : barComponentsArray)
-        {
-            b.setStrokeCapStyle(barCapStyle);
-        }
-    }
-
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
 
@@ -167,75 +153,22 @@ public class CircleProgressbarView extends View implements ValueAnimator.Animato
         rectF.set(0 + maxThickness / 2f, 0 + maxThickness / 2f, min - maxThickness / 2f, min - maxThickness / 2f);
     }
 
-    /**
-     * Adds a {@link BarComponent} to the progress bar
-     *
-     * @param barComponent {@link BarComponent}  to be added
-     */
-    protected void addBarComponent (BarComponent barComponent)
+    public void setProgressWithAnimation(float... progress)
     {
-        barComponent.setBarAnimationListener(this);
-        barComponentsArray.add(barComponent);
-        invalidate();
-    }
+        ArrayList<BarComponent> array = getBarComponentsArray();
+        for (int i = 0 ; i <  array.size(); i++ ) {
+            float barProgress = 0;
 
-    public int getStartAngleOffset() {
-        return startAngleOffset;
-    }
+            if(i < progress.length) {
+                barProgress = progress[i];
+            }
 
-    public void setStartAngleOffset(int startAngleOffset) {
-        this.startAngleOffset = startAngleOffset;
-    }
-
-    public int getPbBackgroundColor() {
-        return pbBackgroundColor;
-    }
-
-    public void setPbBackgroundColor(int backgroundColor) {
-        this.pbBackgroundColor = backgroundColor;
-        this.progressbarBackgroundPaint.setColor(backgroundColor);
-    }
-
-    public Paint getProgressbarBackgroundPaint() {
-        return progressbarBackgroundPaint;
-    }
-
-    public void setProgressbarBackgroundPaint(Paint progressbarBackgroundPaint) {
-        this.progressbarBackgroundPaint = progressbarBackgroundPaint;
-    }
-
-    public float getPbBackgroundThickness() {
-        return pbBackgroundThickness;
-    }
-
-    private void setPbBackgroundThickness(float pbBackgroundThickness) {
-        this.pbBackgroundThickness = pbBackgroundThickness;
-        progressbarBackgroundPaint.setStrokeWidth(pbBackgroundThickness);
-        // force re-calculating the layout dimensions
-        requestLayout();
-    }
-
-    public void setProgressbarBackgroundThickness(int thickness_dp, int unit) {
-        Resources r = getResources();
-        float thickness_px = TypedValue.applyDimension(unit, thickness_dp, r.getDisplayMetrics());
-        this.setPbBackgroundThickness(thickness_px);
-    }
-
-
-    /**
-     * @return The Angle at witch progress is 0
-     */
-    public int getStartAngle() {
-        return startAngle;
-    }
-
-    /**
-     * Sets the Angle at witch progress is 0
-     * @param startAngle 12 o'clock is a -90 angle
-     */
-    public void setStartAngle(int startAngle) {
-
-        this.startAngle = (startAngle % -360);
+            BarComponent bar = array.get(i);
+            // Store value
+            bar.setValue(barProgress);
+            // Store and animate normalized value
+            bar.animateProgress(normalize(barProgress,minimum,maximum));
+        }
     }
 
     /**
@@ -243,8 +176,109 @@ public class CircleProgressbarView extends View implements ValueAnimator.Animato
      * @return list containing {@link BarComponent}
      */
     public ArrayList<BarComponent> getBarComponentsArray() {
-
         return barComponentsArray;
+    }
+
+    /**
+     * Adds a {@link BarComponent} to the progress bar
+     * @param barComponent {@link BarComponent}  to be added
+     */
+    protected void addBarComponent (BarComponent barComponent)
+    {
+        barComponent.setBarAnimationListener(this);
+        barComponentsArray.add(barComponent);
+    }
+
+    public void setNumberOfBars(int barNum)
+    {
+        ArrayList<BarComponent> barArray = getBarComponentsArray();
+        barArray.clear();
+
+        for (int i = 0; i < barNum; i++) {
+            BarComponent auxBar = new BarComponent();
+            auxBar.setBarThicknessPx(pbBarsThickness);
+            auxBar.setStrokeCapStyle(barCapStyle);
+            auxBar.setPaintAntiAlias(bAntiAlias);
+            addBarComponent(auxBar);
+        }
+        invalidate();
+    }
+
+    /**
+     * Set bars cap style
+     * @param capStyle
+     */
+    public void setBarStrokeCapStyle(Paint.Cap capStyle)
+    {
+        if(barCapStyle == capStyle)
+            return;
+
+        barCapStyle = capStyle;
+        for(BarComponent b : barComponentsArray) {
+            b.setStrokeCapStyle(barCapStyle);
+        }
+    }
+
+    public void setBarsColors(int[] colors)
+    {
+        ArrayList<BarComponent> array = getBarComponentsArray();
+        for(int i = 0; i< array.size(); i++)
+        {
+            int colorIndex = i % colors.length;
+            // Apply color
+            array.get(i).setBarColor(colors[colorIndex]);
+        }
+    }
+
+    /**
+     * Sets the Stroke thickness of all the bars.
+     *
+     * @param barThickness
+     * @param unit The unit to convert from. {@link TypedValue#TYPE_DIMENSION}
+     */
+    public void setBarsThickness(float barThickness, int unit) {
+
+        float thickness_px = TypedValue.applyDimension(unit, barThickness, getResources().getDisplayMetrics());
+
+        if (thickness_px == pbBarsThickness)
+            return;
+
+        pbBarsThickness = thickness_px;
+
+        for(BarComponent bar : barComponentsArray) {
+            bar.setBarThicknessPx(pbBarsThickness);
+        }
+
+        requestLayout();
+    }
+
+    /**
+     * Updates the bars normalized value (between 0-1) when
+     * a new minimum or maximum value is set.
+     */
+    private void updateBarsNormalizedProgress()
+    {
+        for (BarComponent bar : getBarComponentsArray()) {
+
+            float newProgress = normalize(bar.getValue(), minimum, maximum);
+            bar.animateProgress(newProgress);
+        }
+    }
+
+    /**
+     * Normalizes a value to a 0-1 range, based on a max(1) and min(0).
+     * Any {@value} greater than max will be normalized to 1, and if less than min to 0
+     * @param value Value to be normalized
+     * @return normalized value in the 0-1 range.
+     */
+    private float normalize(float value,float min, float max)
+    {
+        if(value >= max)
+            return 1;
+        else if(value <= min)
+            return  0;
+
+        return  (value - min) / (max -min);
     }
 
     /**
@@ -297,92 +331,6 @@ public class CircleProgressbarView extends View implements ValueAnimator.Animato
         return spinsAnimator != null && spinsAnimator.isRunning();
     }
 
-    @Override
-    public void onAnimationUpdate(ValueAnimator animation) {
-        invalidate();
-    }
-
-    @Override
-    public void onBarAnimationUpdate() {
-        invalidate();
-    }
-
-   public void setNumberOfBars(int barNum)
-    {
-        ArrayList<BarComponent> barArray = getBarComponentsArray();
-        barArray.clear();
-
-        for (int i = 0; i < barNum; i++) {
-            BarComponent auxBar = new BarComponent();
-            auxBar.setBarThicknessPx(pbBarsThickness);
-            auxBar.setStrokeCapStyle(barCapStyle);
-            addBarComponent(auxBar);
-        }
-    }
-
-    public void setBarsColors(int[] colors)
-    {
-        ArrayList<BarComponent> array = getBarComponentsArray();
-        for(int i = 0; i< array.size(); i++)
-        {
-            int colorIndex = i % colors.length;
-            // Apply color
-            array.get(i).setBarColor(colors[colorIndex]);
-        }
-    }
-
-    protected void setBarThickness(int index,float thickness)
-    {
-        // TODO: Check index exists
-        getBarComponentsArray().get(index).setBarThicknessPx(thickness);
-        // force re-calculating the layout dimensions
-        requestLayout();
-    }
-
-    public void setProgressWithAnimation(float... progress)
-    {
-        ArrayList<BarComponent> array = getBarComponentsArray();
-        for (int i = 0 ; i <  array.size(); i++ ) {
-            float barProgress = 0;
-
-            if(i < progress.length) {
-                barProgress = progress[i];
-            }
-
-            BarComponent bar = array.get(i);
-            // Store value
-            bar.setValue(barProgress);
-            // Store and animate normalized value
-            bar.animateProgress(normalize(barProgress,minimum,maximum));
-        }
-    }
-
-    /**
-     * Sets the Stroke thickness of all the bars.
-     *
-     * @param barThickness
-     * @param unit The unit to convert from. {@link TypedValue#TYPE_DIMENSION}
-     */
-    public void setAllBarsThickness(float barThickness, int unit) {
-
-        for(int i = 0 ; i < getBarComponentsArray().size(); i++)
-            setBarThickness(i,barThickness,unit);
-
-        pbBarsThickness = TypedValue.applyDimension(unit, barThickness, getResources().getDisplayMetrics());
-    }
-
-    /**
-     * Sets the Stroke thickness of an specific bar
-     *
-     * @param barThickness
-     * @param unit The unit to convert from. {@link TypedValue#TYPE_DIMENSION}
-     */
-    public void setBarThickness(int barIndex,float barThickness, int unit) {
-        float thickness_px = TypedValue.applyDimension(unit, barThickness, getResources().getDisplayMetrics());
-        //this.setPbBackgroundThickness(thickness_px);
-        this.setBarThickness(barIndex,thickness_px);
-    }
-
     public float getMaximum() {
         return maximum;
     }
@@ -408,31 +356,70 @@ public class CircleProgressbarView extends View implements ValueAnimator.Animato
     }
 
     /**
-     * Updates the bars normalized value (between 0-1) when
-     * a new minimum or maximum value is set.
+     * @return The Angle at witch progress is 0
      */
-    private void updateBarsNormalizedProgress()
-    {
-        for (BarComponent bar : getBarComponentsArray()) {
-
-            float newProgress = normalize(bar.getValue(), minimum, maximum);
-            bar.animateProgress(newProgress);
-        }
+    public int getStartAngle() {
+        return startAngle;
     }
 
     /**
-     * Normalizes a value to a 0-1 range, based on a max(1) and min(0).
-     * Any {@value} greater than max will be normalized to 1, and if less than min to 0
-     * @param value Value to be normalized
-     * @return normalized value in the 0-1 range.
+     * Sets the Angle at witch progress is 0
+     * @param startAngle 12 o'clock is a -90 angle
      */
-    private float normalize(float value,float min, float max)
-    {
-        if(value >= max)
-            return 1;
-        else if(value <= min)
-            return  0;
+    public void setStartAngle(int startAngle) {
 
-        return  (value - min) / (max -min);
+        this.startAngle = (startAngle % -360);
+    }
+
+    public int getStartAngleOffset() {
+        return startAngleOffset;
+    }
+
+    public void setStartAngleOffset(int startAngleOffset) {
+        this.startAngleOffset = startAngleOffset;
+    }
+
+    public int getPbBackgroundColor() {
+        return pbBackgroundColor;
+    }
+
+    public void setPbBackgroundColor(int backgroundColor) {
+        this.pbBackgroundColor = backgroundColor;
+        this.progressbarBackgroundPaint.setColor(backgroundColor);
+    }
+
+    public Paint getProgressbarBackgroundPaint() {
+        return progressbarBackgroundPaint;
+    }
+
+    public void setProgressbarBackgroundPaint(Paint progressbarBackgroundPaint) {
+        this.progressbarBackgroundPaint = progressbarBackgroundPaint;
+    }
+
+    public float getPbBackgroundThickness() {
+        return pbBackgroundThickness;
+    }
+
+    private void setPbBackgroundThickness(float pbBackgroundThickness) {
+        this.pbBackgroundThickness = pbBackgroundThickness;
+        progressbarBackgroundPaint.setStrokeWidth(pbBackgroundThickness);
+        // force re-calculating the layout dimensions
+        requestLayout();
+    }
+
+    public void setProgressbarBackgroundThickness(int thickness_dp, int unit) {
+        Resources r = getResources();
+        float thickness_px = TypedValue.applyDimension(unit, thickness_dp, r.getDisplayMetrics());
+        this.setPbBackgroundThickness(thickness_px);
+    }
+
+    @Override
+    public void onAnimationUpdate(ValueAnimator animation) {
+        invalidate();
+    }
+
+    @Override
+    public void onBarAnimationUpdate() {
+        invalidate();
     }
 }
