@@ -1,5 +1,9 @@
 # CircularProgressbar-Android
 
+[![Platform](https://img.shields.io/badge/platform-android-green.svg)](http://developer.android.com/index.html)
+
+<img src="/Screens/loading_animation.gif" alt="loading animation" title="screenshot1" width="400" height="400"  />
+
 Usage
 -----
 
