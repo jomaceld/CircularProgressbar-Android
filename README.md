@@ -2,8 +2,7 @@
 
 [![Platform](https://img.shields.io/badge/platform-android-green.svg)](http://developer.android.com/index.html)
 
-
-<img src="/Screens/preview.gif" alt="sample" title="sample" width="300" height="448" align="right" vspace="24" />
+<img src="/Screens/preview.gif" width="300" vspace="10" alt="preview" align="right"  />
 Usage
 -----
 
