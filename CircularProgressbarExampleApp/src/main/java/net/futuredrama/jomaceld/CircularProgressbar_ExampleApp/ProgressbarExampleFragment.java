@@ -38,7 +38,7 @@ public class ProgressbarExampleFragment extends Fragment implements SeekBar.OnSe
     CircleProgressbarView pBar;
     SeekBar sb_progress;
     SeekBar sb_barThickness;
-    SeekBar sb_maximum;
+    SeekBar sb_backgroundThickness;
 
     public ProgressbarExampleFragment() {
         // Required empty public constructor
@@ -70,14 +70,16 @@ public class ProgressbarExampleFragment extends Fragment implements SeekBar.OnSe
         sb_barThickness = (SeekBar) rootView.findViewById(R.id.barThicknessSeekBar);
         sb_barThickness.setOnSeekBarChangeListener(this);
 
-        sb_maximum = (SeekBar) rootView.findViewById(R.id.maximumSeekBar);
-        sb_maximum.setMax(4);
-        sb_maximum.setOnSeekBarChangeListener(this);
+        sb_backgroundThickness = (SeekBar) rootView.findViewById(R.id.backgroundThicknessSeekBar);
+        sb_backgroundThickness.setOnSeekBarChangeListener(this);
 
         pBar = (CircleProgressbarView) rootView.findViewById(R.id.pbar);
 
-        if(pBar != null)
+        if(pBar != null) {
             setupProgressbar();
+        }
+        sb_barThickness.setProgress(20);
+        sb_backgroundThickness.setProgress(16);
 
         return rootView;
     }
@@ -101,15 +103,15 @@ public class ProgressbarExampleFragment extends Fragment implements SeekBar.OnSe
 
         switch (seekBar.getId()){
             case R.id.barThicknessSeekBar:
-                pBar.setAllBarsThickness(progress,TypedValue.COMPLEX_UNIT_DIP);
+                pBar.setBarsThickness( progress,TypedValue.COMPLEX_UNIT_DIP);
                 // force redraw of the view
                 pBar.invalidate();
                 break;
             case R.id.progressSeekBar:
                 pBar.setProgressWithAnimation(progress/100f);
                 break;
-            case R.id.maximumSeekBar:
-                pBar.setMaximum(progress);
+            case R.id.backgroundThicknessSeekBar:
+                pBar.setProgressbarBackgroundThickness(progress,TypedValue.COMPLEX_UNIT_DIP);
                 break;
         }
     }
