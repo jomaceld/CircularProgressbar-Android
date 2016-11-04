@@ -49,6 +49,11 @@ public class BarComponent implements ValueAnimator.AnimatorUpdateListener{
         setValue(0);
     }
 
+    public void setStrokeCapStyle(Paint.Cap capStyle)
+    {
+        barPaint.setStrokeCap(capStyle);
+    }
+
     public float getValue() {
         return value;
     }

@@ -26,10 +26,12 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 /**
  * A subclass of {@link View} class for creating a circular progressBar.
@@ -55,6 +57,8 @@ public class CircleProgressbarView extends View implements ValueAnimator.Animato
     private ArrayList<BarComponent> barComponentsArray;
     /** When set to true, bars will be stacked in the progressbar */
     public boolean bStackBars = true;
+    /** Bars stroke cap style */
+    private Paint.Cap barCapStyle = Paint.Cap.ROUND;
 
     private RectF rectF;
     private Paint progressbarBackgroundPaint;
@@ -96,6 +100,11 @@ public class CircleProgressbarView extends View implements ValueAnimator.Animato
         setStartAngle(tArray.getInt(R.styleable.CircleProgressbarView_startAngle,startAngle));
         setMaximum(tArray.getFloat(R.styleable.CircleProgressbarView_maxValue, maximum));
         setMinimum(tArray.getFloat(R.styleable.CircleProgressbarView_minValue, minimum));
+        if(tArray.hasValue(R.styleable.CircleProgressbarView_barCapStyle)) {
+            int index = tArray.getInt(R.styleable.CircleProgressbarView_barCapStyle,0);
+            setBarStrokeCapStyle(Paint.Cap.values()[index]);
+        }
+
         tArray.recycle();
 
         // Initialize background paint
@@ -104,7 +113,6 @@ public class CircleProgressbarView extends View implements ValueAnimator.Animato
         progressbarBackgroundPaint.setColor(pbBackgroundColor);
         progressbarBackgroundPaint.setStrokeWidth(pbBackgroundThickness);
     }
-
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -121,6 +129,22 @@ public class CircleProgressbarView extends View implements ValueAnimator.Animato
             canvas.drawArc(rectF,arcStartAngle ,arcEndAngle, false, bar.getBarPaint());
             if(bStackBars)
                 previousValue += arcEndAngle;
+        }
+    }
+
+    /**
+     * Set bars cap style
+     * @param capStyle
+     */
+    public void setBarStrokeCapStyle(Paint.Cap capStyle)
+    {
+        if(barCapStyle == capStyle)
+            return;
+
+        barCapStyle = capStyle;
+        for(BarComponent b : barComponentsArray)
+        {
+            b.setStrokeCapStyle(barCapStyle);
         }
     }
 
@@ -184,9 +208,11 @@ public class CircleProgressbarView extends View implements ValueAnimator.Animato
         return pbBackgroundThickness;
     }
 
-    public void setPbBackgroundThickness(float pbBackgroundThickness) {
+    private void setPbBackgroundThickness(float pbBackgroundThickness) {
         this.pbBackgroundThickness = pbBackgroundThickness;
         progressbarBackgroundPaint.setStrokeWidth(pbBackgroundThickness);
+        // force re-calculating the layout dimensions
+        requestLayout();
     }
 
     public void setProgressbarBackgroundThickness(int thickness_dp, int unit) {
@@ -289,6 +315,7 @@ public class CircleProgressbarView extends View implements ValueAnimator.Animato
         for (int i = 0; i < barNum; i++) {
             BarComponent auxBar = new BarComponent();
             auxBar.setBarThicknessPx(pbBarsThickness);
+            auxBar.setStrokeCapStyle(barCapStyle);
             addBarComponent(auxBar);
         }
     }

@@ -6,5 +6,10 @@
         <attr name="startAngle" format="integer" />
         <attr name="maxValue" format="float" />
         <attr name="minValue" format="float" />
+        <attr name="barCapStyle" format="enum">
+            <enum name="butt" value="0" />
+            <enum name="round" value="1" />
+            <enum name="square" value="2" />
+        </attr>
     </declare-styleable>
 </resources>
