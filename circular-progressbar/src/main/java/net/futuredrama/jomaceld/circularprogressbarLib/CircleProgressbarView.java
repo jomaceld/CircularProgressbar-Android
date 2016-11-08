@@ -61,6 +61,8 @@ public class CircleProgressbarView extends View implements ValueAnimator.Animato
     public boolean bAntiAlias = true;
     /** Bars stroke cap style */
     private Paint.Cap barCapStyle = Paint.Cap.ROUND;
+    /** Max angle */
+    private float maxAngle = 360;
 
     private RectF rectF;
     private Paint progressbarBackgroundPaint;
@@ -119,14 +121,13 @@ public class CircleProgressbarView extends View implements ValueAnimator.Animato
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
         // Draw Background
-        canvas.drawOval(rectF, progressbarBackgroundPaint);
+        canvas.drawArc(rectF,startAngle,maxAngle,false, progressbarBackgroundPaint);
         // Draw bars
         float previousValue = 0;
         for (BarComponent bar : barComponentsArray) {
             float arcStartAngle = startAngle + startAngleOffset + bar.getAngleOffset() + previousValue;
-            float arcEndAngle = 360 * bar.getProgressNormalized();
+            float arcEndAngle = maxAngle * bar.getProgressNormalized();
 
             canvas.drawArc(rectF,arcStartAngle ,arcEndAngle, false, bar.getBarPaint());
             if(bStackBars)
@@ -313,15 +314,15 @@ public class CircleProgressbarView extends View implements ValueAnimator.Animato
     }
 
     public void spinBars(int repetitions,int repeatMode,int duration) {
-        if(startAngleOffset >= 360)
-            startAngleOffset %= 360;
+        if(startAngleOffset >= maxAngle)
+            startAngleOffset %= maxAngle;
         animateSpins(repetitions, repeatMode, duration, startAngleOffset, startAngleOffset + 360);
     }
 
     public void cancelSpin() {
         if(isSpinning()) {
-            if(startAngleOffset >= 360)
-                startAngleOffset %= 360;
+            if(startAngleOffset >= maxAngle)
+                startAngleOffset %= maxAngle;
 
             animateSpins(0,0,500,startAngleOffset,360);
         }
