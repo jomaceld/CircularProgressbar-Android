@@ -12,7 +12,7 @@ Usage
  
 ```gradle
 dependencies {
-	compile 'net.futuredrama.jomaceld:circular-progressbar:0.2'
+	compile 'net.futuredrama.jomaceld:circular-progressbar:0.2.1'
 }
 ```
 #### Option 2. Clone Github repository
