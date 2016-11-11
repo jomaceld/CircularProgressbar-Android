@@ -48,16 +48,29 @@ XML
 
 You can use the following attributes in your XML declaration to tweak the ProgressBar.
 
-
 ##### XML Properties:
 
-* `app:backgroundColor`: Background color -- type: Color default: Color.DKGRAY
-* `app:backgroundThickness`: Background thickness-- dimension (default: 10)
-* `app:barThickness`: Bar thickness -- dimension (default: 8)
-* `app:startAngle`: Angle at witch the progress is 0. -90 => 12 o'clock -- integer (default: -90) 
-* `app:maxValue`: The maximum value of the progressbar range  -- float (default: 1)
-* `app:minValue`: The minimum value of the progressbar range  -- float (default: 0)
-* `app:barCapStyle`  Bar cap style. See: [Android Paint.Cap](https://developer.android.com/reference/android/graphics/Paint.Cap.html) -- enum: {butt, round, square} (default: round)
+* `app:backgroundColor`: Background color
+	* type: Color 
+	* default: Color.DKGRAY
+* `app:backgroundThickness`: Background thickness
+	* type: dimension 
+	* default: 10
+* `app:barThickness`: Bar thickness 
+	* type: dimension 
+	* default: 8
+* `app:startAngle`: Angle at witch the progress is 0 (-90 => 12 o'clock) 
+	* type: integer 
+	* default: -90
+* `app:maxValue`: The maximum value of the progressbar range
+	* type: float 
+	* default: 1
+* `app:minValue`: The minimum value of the progressbar range 
+	* type: float 
+	* default: 0
+* `app:barCapStyle`  Bar cap style. See: [Android Paint.Cap](https://developer.android.com/reference/android/graphics/Paint.Cap.html) 
+	* type: enum: {butt, round, square} 
+	* default: round
 
 Examples
 -----
