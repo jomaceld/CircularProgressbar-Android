@@ -9,7 +9,7 @@ Usage
 
 To use the library you have few different options:
 
-**Option 1. Gradle dependency(recommended)** 
+*Option 1. Gradle dependency(recommended)** 
 
   - Make sure you have the jcenter() repository in your project  `build.gradle`:
  
@@ -28,10 +28,36 @@ dependencies {
 }
 ```
 
-**Option 2. Clone Github repository**
+*Option 2. Clone Github repository**
   1. Use git to download a copy of the whole repository to your computer (this includes the folder of the library and an example project)
   2. Import the library folder (`CircularProgressbarLib`) into Android Studio as a dependency to your project: 
    - [Add your library as a dependency](https://developer.android.com/studio/projects/android-library.html#AddDependency)
+
+XML
+-----
+
+```xml
+<net.futuredrama.jomaceld.circularpblib.CircularProgressBarView
+    android:id="@+id/pbar"    
+    android:layout_width="match_parent"    
+    android:layout_height="wrap_content"       
+    app:backgroundThickness="20dp"    
+    app:barThickness="16dp"    
+    app:barCapStyle="butt"/>
+```
+
+You can use the following attributes in your XML declaration to tweak the ProgressBar.
+
+
+##### XML Properties:
+
+* `app:backgroundColor`: Background color -- type: Color default: Color.DKGRAY
+* `app:backgroundThickness`: Background thickness-- dimension (default: 10)
+* `app:barThickness`: Bar thickness -- dimension (default: 8)
+* `app:startAngle`: Angle at witch the progress is 0. -90 => 12 o'clock -- integer (default: -90) 
+* `app:maxValue`: The maximum value of the progressbar range  -- float (default: 1)
+* `app:minValue`: The minimum value of the progressbar range  -- float (default: 0)
+* `app:barCapStyle`  Bar cap style. See: [Android Paint.Cap](https://developer.android.com/reference/android/graphics/Paint.Cap.html) -- enum: {butt, round, square} (default: round)
 
 Examples
 -----
