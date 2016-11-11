@@ -13,7 +13,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package net.futuredrama.jomaceld.circularprogressbarLib;
+package net.futuredrama.jomaceld.circularpblib;
 
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;

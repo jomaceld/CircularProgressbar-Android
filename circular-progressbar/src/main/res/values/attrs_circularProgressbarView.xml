@@ -1,5 +1,4 @@
 <resources>
-    <declare-styleable name="CircleProgressbarView">
         <attr name="backgroundColor" format="color|reference" />
         <attr name="backgroundThickness" format="dimension" />
         <attr name="barThickness" format="dimension" />

@@ -13,7 +13,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package net.futuredrama.jomaceld.CircularProgressbar_ExampleApp.ExampleFragments;
+package net.futuredrama.jomaceld.circularpbexamples.ExampleFragments;
 
 import android.animation.ObjectAnimator;
 import android.os.Bundle;
@@ -25,9 +25,9 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.ToggleButton;
 
-import net.futuredrama.jomaceld.CircularProgressbar_ExampleApp.R;
-import net.futuredrama.jomaceld.circularprogressbarLib.BarComponent;
-import net.futuredrama.jomaceld.circularprogressbarLib.CircleProgressbarView;
+import net.futuredrama.jomaceld.circularpbexamples.R;
+import net.futuredrama.jomaceld.circularpblib.BarComponent;
+import net.futuredrama.jomaceld.circularpblib.CircularProgressBarView;
 
 import java.util.ArrayList;
 
@@ -38,7 +38,7 @@ import java.util.ArrayList;
  */
 public class Example2Fragment extends Fragment {
 
-    CircleProgressbarView pBar;
+    CircularProgressBarView pBar;
     boolean bIsLoading = false;
 
     public Example2Fragment() {
@@ -57,7 +57,7 @@ public class Example2Fragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_example2, container, false);
 
         // Get a pointer to the layout's progressbar
-        pBar = (CircleProgressbarView) rootView.findViewById(R.id.pbar);
+        pBar = (CircularProgressBarView) rootView.findViewById(R.id.pbar);
 
         if(pBar != null)
             setupProgressbar();
