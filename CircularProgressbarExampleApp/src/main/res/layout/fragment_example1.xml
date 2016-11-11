@@ -2,12 +2,12 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="net.futuredrama.jomaceld.CircularProgressbar_ExampleApp.ExampleFragments.Example1Fragment"
+    tools:context="net.futuredrama.jomaceld.circularpbexamples.ExampleFragments.Example1Fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <net.futuredrama.jomaceld.circularprogressbarLib.CircleProgressbarView
+    <net.futuredrama.jomaceld.circularpblib.CircularProgressBarView
         android:id="@+id/pbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

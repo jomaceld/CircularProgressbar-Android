@@ -13,7 +13,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package net.futuredrama.jomaceld.CircularProgressbar_ExampleApp.ExampleFragments;
+package net.futuredrama.jomaceld.circularpbexamples.ExampleFragments;
 
 
 import android.os.Bundle;
@@ -25,8 +25,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.SeekBar;
 
-import net.futuredrama.jomaceld.CircularProgressbar_ExampleApp.R;
-import net.futuredrama.jomaceld.circularprogressbarLib.CircleProgressbarView;
+import net.futuredrama.jomaceld.circularpbexamples.R;
+import net.futuredrama.jomaceld.circularpblib.CircularProgressBarView;
 
 import java.util.Random;
 
@@ -36,7 +36,7 @@ import java.util.Random;
  */
 public class Example1Fragment extends Fragment implements SeekBar.OnSeekBarChangeListener {
 
-    CircleProgressbarView pBar;
+    CircularProgressBarView pBar;
     SeekBar sb_progress;
     SeekBar sb_barThickness;
     SeekBar sb_backgroundThickness;
@@ -74,7 +74,7 @@ public class Example1Fragment extends Fragment implements SeekBar.OnSeekBarChang
         sb_backgroundThickness = (SeekBar) rootView.findViewById(R.id.backgroundThicknessSeekBar);
         sb_backgroundThickness.setOnSeekBarChangeListener(this);
 
-        pBar = (CircleProgressbarView) rootView.findViewById(R.id.pbar);
+        pBar = (CircularProgressBarView) rootView.findViewById(R.id.pbar);
 
         if(pBar != null) {
             setupProgressbar();

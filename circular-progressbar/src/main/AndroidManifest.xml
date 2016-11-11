@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="net.futuredrama.jomaceld.circularprogressbarLib">
+    package="net.futuredrama.jomaceld.circularpblib">
 
     <application
         android:allowBackup="true"

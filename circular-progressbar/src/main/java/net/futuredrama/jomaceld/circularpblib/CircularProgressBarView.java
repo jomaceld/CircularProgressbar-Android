@@ -13,7 +13,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package net.futuredrama.jomaceld.circularprogressbarLib;
+package net.futuredrama.jomaceld.circularpblib;
 
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
@@ -26,18 +26,16 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import java.util.ArrayList;
-import java.util.StringTokenizer;
 
 /**
  * A subclass of {@link View} class for creating a circular progressBar.
  *
  */
-public class CircleProgressbarView extends View implements ValueAnimator.AnimatorUpdateListener,BarAnimationListener {
+public class CircularProgressBarView extends View implements ValueAnimator.AnimatorUpdateListener,BarAnimationListener {
 
     /** The maximum value of the range. The default is 1 */
     private float maximum = 1;
@@ -68,17 +66,17 @@ public class CircleProgressbarView extends View implements ValueAnimator.Animato
     private Paint progressbarBackgroundPaint;
     ObjectAnimator spinsAnimator;
 
-    public CircleProgressbarView(Context context) {
+    public CircularProgressBarView(Context context) {
         super(context);
         init(null, 0);
     }
 
-    public CircleProgressbarView(Context context, AttributeSet attrs) {
+    public CircularProgressBarView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(attrs, 0);
     }
 
-    public CircleProgressbarView(Context context, AttributeSet attrs, int defStyle) {
+    public CircularProgressBarView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init(attrs, defStyle);
     }
@@ -96,16 +94,16 @@ public class CircleProgressbarView extends View implements ValueAnimator.Animato
         rectF = new RectF();
 
         final TypedArray tArray = getContext().obtainStyledAttributes(attrs,
-                                                    R.styleable.CircleProgressbarView, defStyle, 0);
+                                                    R.styleable.CircularProgressBarView, defStyle, 0);
         // Read XML attributes
-        pbBackgroundColor = tArray.getColor(R.styleable.CircleProgressbarView_backgroundColor, pbBackgroundColor);
-        pbBackgroundThickness = tArray.getDimension(R.styleable.CircleProgressbarView_backgroundThickness,pbBackgroundThickness);
-        pbBarsThickness = tArray.getDimension(R.styleable.CircleProgressbarView_barThickness, pbBarsThickness);
-        setStartAngle(tArray.getInt(R.styleable.CircleProgressbarView_startAngle,startAngle));
-        setMaximum(tArray.getFloat(R.styleable.CircleProgressbarView_maxValue, maximum));
-        setMinimum(tArray.getFloat(R.styleable.CircleProgressbarView_minValue, minimum));
-        if(tArray.hasValue(R.styleable.CircleProgressbarView_barCapStyle)) {
-            int index = tArray.getInt(R.styleable.CircleProgressbarView_barCapStyle,0);
+        pbBackgroundColor = tArray.getColor(R.styleable.CircularProgressBarView_backgroundColor, pbBackgroundColor);
+        pbBackgroundThickness = tArray.getDimension(R.styleable.CircularProgressBarView_backgroundThickness,pbBackgroundThickness);
+        pbBarsThickness = tArray.getDimension(R.styleable.CircularProgressBarView_barThickness, pbBarsThickness);
+        setStartAngle(tArray.getInt(R.styleable.CircularProgressBarView_startAngle,startAngle));
+        setMaximum(tArray.getFloat(R.styleable.CircularProgressBarView_maxValue, maximum));
+        setMinimum(tArray.getFloat(R.styleable.CircularProgressBarView_minValue, minimum));
+        if(tArray.hasValue(R.styleable.CircularProgressBarView_barCapStyle)) {
+            int index = tArray.getInt(R.styleable.CircularProgressBarView_barCapStyle,0);
             setBarStrokeCapStyle(Paint.Cap.values()[index]);
         }
 

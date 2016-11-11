@@ -13,7 +13,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package net.futuredrama.jomaceld.CircularProgressbar_ExampleApp;
+package net.futuredrama.jomaceld.circularpbexamples;
 
 
 import android.os.Bundle;
@@ -24,8 +24,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import net.futuredrama.jomaceld.CircularProgressbar_ExampleApp.ExampleFragments.Example2Fragment;
-import net.futuredrama.jomaceld.CircularProgressbar_ExampleApp.ExampleFragments.Example1Fragment;
+import net.futuredrama.jomaceld.circularpbexamples.ExampleFragments.Example2Fragment;
+import net.futuredrama.jomaceld.circularpbexamples.ExampleFragments.Example1Fragment;
 
 
 public class MainMenuFragment extends Fragment {
