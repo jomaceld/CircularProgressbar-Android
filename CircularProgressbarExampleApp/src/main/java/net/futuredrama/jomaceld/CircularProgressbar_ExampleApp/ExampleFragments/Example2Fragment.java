@@ -82,6 +82,7 @@ public class Example2Fragment extends Fragment {
         // Set the numbers of bars
         pBar.setNumberOfBars(3);
         // Set up background color and thickness
+        pBar.setPbBackgroundColor(getResources().getColor(R.color.progressbar_bgColor2));
         pBar.setProgressbarBackgroundThickness(25, TypedValue.COMPLEX_UNIT_DIP);
         // Set bars thickness
         pBar.setBarsThickness(20, TypedValue.COMPLEX_UNIT_DIP);
