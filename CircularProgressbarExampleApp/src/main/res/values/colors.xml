@@ -4,6 +4,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="progressbar_bgColor">#F8BBD0</color>
+    <color name="progressbar_bgColor2">#DDDDDD</color>
 
     <color name="bar1Color">#E91E63</color>
     <color name="bar2Color">#CDDC39</color>

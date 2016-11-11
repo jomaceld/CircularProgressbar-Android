@@ -24,6 +24,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import net.futuredrama.jomaceld.CircularProgressbar_ExampleApp.ExampleFragments.Example2Fragment;
+import net.futuredrama.jomaceld.CircularProgressbar_ExampleApp.ExampleFragments.Example1Fragment;
+
 
 public class MainMenuFragment extends Fragment {
 
@@ -49,7 +52,7 @@ public class MainMenuFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 FragmentTransaction trans = getFragmentManager().beginTransaction();
-                Fragment fragment = new ProgressbarExampleFragment();
+                Fragment fragment = new Example1Fragment();
                 trans.replace(R.id.container, fragment,"");
                 trans.addToBackStack(null);
                 trans.commit();
@@ -62,7 +65,7 @@ public class MainMenuFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 FragmentTransaction trans = getFragmentManager().beginTransaction();
-                Fragment fragment = new ComplexProgressbarFragment();
+                Fragment fragment = new Example2Fragment();
                 trans.replace(R.id.container, fragment,"");
                 trans.addToBackStack(null);
                 trans.commit();
