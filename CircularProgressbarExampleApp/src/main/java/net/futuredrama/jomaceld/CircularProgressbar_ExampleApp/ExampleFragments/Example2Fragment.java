@@ -13,7 +13,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package net.futuredrama.jomaceld.CircularProgressbar_ExampleApp;
+package net.futuredrama.jomaceld.CircularProgressbar_ExampleApp.ExampleFragments;
 
 import android.animation.ObjectAnimator;
 import android.os.Bundle;
@@ -25,6 +25,7 @@ import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.ToggleButton;
 
+import net.futuredrama.jomaceld.CircularProgressbar_ExampleApp.R;
 import net.futuredrama.jomaceld.circularprogressbarLib.BarComponent;
 import net.futuredrama.jomaceld.circularprogressbarLib.CircleProgressbarView;
 
@@ -35,12 +36,12 @@ import java.util.ArrayList;
  * A simple {@link Fragment} subclass.
  *
  */
-public class ComplexProgressbarFragment extends Fragment {
+public class Example2Fragment extends Fragment {
 
     CircleProgressbarView pBar;
     boolean bIsLoading = false;
 
-    public ComplexProgressbarFragment() {
+    public Example2Fragment() {
         // Required empty public constructor
     }
 
@@ -53,7 +54,7 @@ public class ComplexProgressbarFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View rootView = inflater.inflate(R.layout.fragment_multibar_example, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_example2, container, false);
 
         // Get a pointer to the layout's progressbar
         pBar = (CircleProgressbarView) rootView.findViewById(R.id.pbar);
@@ -81,7 +82,7 @@ public class ComplexProgressbarFragment extends Fragment {
         // Set the numbers of bars
         pBar.setNumberOfBars(3);
         // Set up background color and thickness
-        pBar.setPbBackgroundColor(getResources().getColor(R.color.progressbar_bgColor));
+        pBar.setPbBackgroundColor(getResources().getColor(R.color.progressbar_bgColor2));
         pBar.setProgressbarBackgroundThickness(25, TypedValue.COMPLEX_UNIT_DIP);
         // Set bars thickness
         pBar.setBarsThickness(20, TypedValue.COMPLEX_UNIT_DIP);
@@ -105,7 +106,7 @@ public class ComplexProgressbarFragment extends Fragment {
                 bar.animateAngleOffset(i * (360/numOfBars),500);
                 bar.animateProgress(0.1f);
             }
-            pBar.spinBars(ObjectAnimator.INFINITE,ObjectAnimator.RESTART,1000);
+            pBar.spinBars(ObjectAnimator.INFINITE,ObjectAnimator.INFINITE,1000);
         }else {
 
             pBar.cancelSpin();

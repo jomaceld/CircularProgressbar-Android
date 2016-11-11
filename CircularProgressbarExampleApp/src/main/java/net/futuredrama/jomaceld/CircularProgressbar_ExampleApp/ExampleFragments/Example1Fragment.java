@@ -13,7 +13,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package net.futuredrama.jomaceld.CircularProgressbar_ExampleApp;
+package net.futuredrama.jomaceld.CircularProgressbar_ExampleApp.ExampleFragments;
 
 
 import android.os.Bundle;
@@ -25,6 +25,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.SeekBar;
 
+import net.futuredrama.jomaceld.CircularProgressbar_ExampleApp.R;
 import net.futuredrama.jomaceld.circularprogressbarLib.CircleProgressbarView;
 
 import java.util.Random;
@@ -33,14 +34,14 @@ import java.util.Random;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ProgressbarExampleFragment extends Fragment implements SeekBar.OnSeekBarChangeListener {
+public class Example1Fragment extends Fragment implements SeekBar.OnSeekBarChangeListener {
 
     CircleProgressbarView pBar;
     SeekBar sb_progress;
     SeekBar sb_barThickness;
     SeekBar sb_backgroundThickness;
 
-    public ProgressbarExampleFragment() {
+    public Example1Fragment() {
         // Required empty public constructor
     }
 
@@ -53,7 +54,7 @@ public class ProgressbarExampleFragment extends Fragment implements SeekBar.OnSe
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View rootView = inflater.inflate(R.layout.fragment_progressbar_example, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_example1, container, false);
 
         Button buttonRandomProgress = (Button) rootView.findViewById(R.id.button_randomprogress);
         assert buttonRandomProgress != null;
