@@ -4,22 +4,9 @@
 
 <img src="/Screens/preview.gif" width="300" vspace="10" alt="preview" align="right"  />
 
-Usage
+Usage (Gradle dependency)
 -----
-
-To use the library you have few different options:
-
-*Option 1. Gradle dependency(recommended)** 
-
-  - Make sure you have the jcenter() repository in your project  `build.gradle`:
- 
-```gradle
-allprojects {
-	repositories {s
-		jcenter()
-	}
-}
-```
+  - Make sure you have jcenter() as a repository in your project  `build.gradle`
   - Add the following dependencies to your app `build.gradle`:
  
 ```gradle
@@ -27,11 +14,6 @@ dependencies {
 	compile 'net.futuredrama.jomaceld:circular-progressbar:0.2'
 }
 ```
-
-*Option 2. Clone Github repository**
-  1. Use git to download a copy of the whole repository to your computer (this includes the folder of the library and an example project)
-  2. Import the library folder (`CircularProgressbarLib`) into Android Studio as a dependency to your project: 
-   - [Add your library as a dependency](https://developer.android.com/studio/projects/android-library.html#AddDependency)
 
 XML
 -----
@@ -77,7 +59,12 @@ Examples
 <img src="/Screens/loading_animation.gif" alt="loading animation" title="screenshot1" width="400" height="400"  />
 
 
-
+Clone Github repository
+-----
+  1. Use git to download a copy of the whole repository to your computer (this includes the folder of the library and an example project)
+  2. Import the library folder (`CircularProgressbarLib`) into Android Studio as a dependency to your project: 
+   - [Add your library as a dependency](https://developer.android.com/studio/projects/android-library.html#AddDependency)
+   
 #License
 
 Copyright 2016 Jose Antonio Maestre Celdran
